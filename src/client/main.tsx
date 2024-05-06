@@ -1,15 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { registerSW } from "./utils/register-sw";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
-navigator.serviceWorker.register('/sw.js', {
+registerSW("/sw.js", {
   scope: "/",
-  type: "module"
+  type: "module",
 })
+  .then(() => {
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+  })
+  .catch(() => {
+    root.render(<h1>Unsupported Browser</h1>);
+  });
