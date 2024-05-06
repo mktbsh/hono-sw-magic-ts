@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:sw": "bun build ./src/server/sw.ts --outdir ./public --format esm --sourcemap=inline --watch",
+    "dev:sw": "vite build --watch --config vite.config.sw.ts",
     "dev:vite": "vite",
-    "build:sw": "bun build ./src/server/sw.ts --outdir ./public --format esm --minify --sourcemap=none",
+    "build:sw": "vite build --config vite.config.sw.ts",
     "build:vite": "tsc && vite build",
     "build": "run-s build:*",
     "preview": "vite preview"

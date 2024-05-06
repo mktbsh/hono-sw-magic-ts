@@ -3,7 +3,8 @@ import { logger } from "hono/logger";
 import { poweredBy } from "hono/powered-by";
 import { xRayTraceId } from "./utils/x-ray-trace-id";
 
-const BUILD_TIME = Date.now();
+
+const VERSION = "0.2.0"
 
 export type AppType = typeof route;
 
@@ -14,11 +15,12 @@ app.use(logger());
 app.use(poweredBy());
 app.use(async (c, next) => {
   c.header("amzn-trace-id-like", xRayTraceId());
+  c.header('sw-version', VERSION)
   await next();
 });
 
 const route = app
-  .get("/version", (c) => c.text(`v${BUILD_TIME}`))
+  .get("/version", (c) => c.text(`v${VERSION}`))
   .get("/health", (c) => {
     return c.json({ ok: true, ts: Date.now() });
   });
